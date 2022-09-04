@@ -1,8 +1,9 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.dto.Post
 
 class PostRepositoryInMemoryImpl : PostRepository {
     private var posts = listOf(
