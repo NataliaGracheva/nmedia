@@ -7,4 +7,9 @@
     <string name="description_liked_number">Количество лайков</string>
     <string name="description_shared_number">Количество поделившихся</string>
     <string name="description_viewed_number">Количество просмотров</string>
+    <string name="options_remove">Удалить</string>
+    <string name="post_hint">Текст поста</string>
+    <string name="save_post_button">Кнопка сохранения поста</string>
+    <string name="empty_content_toast">Контент не может быть пусстым</string>
+    <string name="options_edit">Редактировать</string>
 </resources>

@@ -6,4 +6,9 @@
     <string name="description_liked_number">Number of likes</string>
     <string name="description_shared_number">Number of shared</string>
     <string name="description_viewed_number">Number of views</string>
+    <string name="options_remove">Remove</string>
+    <string name="post_hint">Post text</string>
+    <string name="save_post_button">Save post button</string>
+    <string name="empty_content_toast">Content can\'t be empty</string>
+    <string name="options_edit">Edit</string>
 </resources>
