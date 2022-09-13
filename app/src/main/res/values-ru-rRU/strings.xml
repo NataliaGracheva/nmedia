@@ -12,4 +12,5 @@
     <string name="save_post_button">Кнопка сохранения поста</string>
     <string name="empty_content_toast">Контент не может быть пусстым</string>
     <string name="options_edit">Редактировать</string>
+    <string name="cancel_editing_button">Кнопка отмены редактирования</string>
 </resources>

@@ -11,4 +11,5 @@
     <string name="save_post_button">Save post button</string>
     <string name="empty_content_toast">Content can\'t be empty</string>
     <string name="options_edit">Edit</string>
+    <string name="cancel_editing_button">Cancel editing button</string>
 </resources>

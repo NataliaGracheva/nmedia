@@ -22,6 +22,7 @@ class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
     val data = repository.get()
     val edited = MutableLiveData(empty)
+    val prev = MutableLiveData(empty)
 
     fun likeById(id: Long) = repository.likeById(id)
 
@@ -37,6 +38,7 @@ class PostViewModel : ViewModel() {
     }
 
     fun edit(post: Post) {
+        prev.value = post
         edited.value = post
     }
 
@@ -48,6 +50,11 @@ class PostViewModel : ViewModel() {
             }
             edited.value = it.copy(content = text)
         }
+    }
+
+    fun cancelEditing() {
+        prev.value = empty
+        edited.value = empty
     }
 
 }
