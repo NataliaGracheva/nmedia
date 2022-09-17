@@ -1,18 +1,16 @@
 package ru.netology.nmedia.activity
 
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.nmedia.Helper
+import ru.netology.nmedia.utils.Helper
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.dto.Post
 
-typealias OnLikeListener = (Post) -> Unit
-typealias OnShareListener = (Post) -> Unit
 
 class PostViewHolder(
     private val binding: PostCardBinding,
-    private val onLikeListener: OnLikeListener,
-    private val onShareListener: OnShareListener
+    private val listener: OnInteractionsListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
@@ -24,10 +22,28 @@ class PostViewHolder(
             viewed.text = Helper.getShortCountView(post.viewed)
             likedIcon.setImageResource(if (post.likedByMe) R.drawable.ic_baseline_favorite_24 else R.drawable.ic_outline_favorite_border_24)
             likedIcon.setOnClickListener {
-                onLikeListener(post)
+                listener.onLike(post)
             }
             sharedIcon.setOnClickListener {
-                onShareListener(post)
+                listener.onShare(post)
+            }
+            menu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.post_options)
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.remove -> {
+                                listener.onRemove(post)
+                                true
+                            }
+                            R.id.edit -> {
+                                listener.onEdit(post)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                }.show()
             }
         }
     }

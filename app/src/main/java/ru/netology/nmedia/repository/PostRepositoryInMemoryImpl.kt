@@ -58,4 +58,25 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
         data.value = posts
     }
+
+    override fun removeById(id: Long) {
+        posts = posts.filter { it.id != id }
+        data.value = posts
+    }
+
+    override fun save(post: Post) {
+        if (post.id == 0L) {
+            posts = listOf(
+                post.copy(
+                    id = (posts.firstOrNull()?.id ?: 0L) + 1,
+                    author = "Нетология. Университет интернет-профессий будущего",
+                    published = "now"
+                )
+            ) + posts
+            data.value = posts
+            return
+        }
+        posts = posts.map { if (it.id != post.id) it else post.copy(content = post.content) }
+        data.value = posts
+    }
 }
