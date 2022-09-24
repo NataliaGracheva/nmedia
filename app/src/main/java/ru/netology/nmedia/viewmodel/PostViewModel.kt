@@ -57,4 +57,15 @@ class PostViewModel : ViewModel() {
         edited.value = empty
     }
 
+    fun changeContentAndSave(content: String) {
+        val text = content.trim()
+        if (edited.value?.content == text) {
+            return
+        }
+        edited.value?.let {
+            repository.save(it.copy(content = text))
+        }
+        edited.value = empty
+    }
+
 }

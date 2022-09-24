@@ -1,9 +1,10 @@
-package ru.netology.nmedia.activity
+package ru.netology.nmedia.adapter
 
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.utils.Helper
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.OnInteractionsListener
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.dto.Post
 
