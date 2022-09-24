@@ -1,17 +1,13 @@
 package ru.netology.nmedia.activity
 
-import android.app.Notification
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.utils.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 
@@ -28,8 +24,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        val adapter = PostAdapter( object :
-        OnInteractionsListener {
+        val adapter = PostAdapter(object :
+            OnInteractionsListener {
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
             }
@@ -52,6 +48,13 @@ class MainActivity : AppCompatActivity() {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
             }
+
+            override fun onPlay(post: Post) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                val playIntent =
+                    Intent.createChooser(intent, getString(R.string.choose_play_video_app))
+                startActivity(playIntent)
+            }
         })
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
@@ -60,8 +63,6 @@ class MainActivity : AppCompatActivity() {
 
         val activityLauncher = registerForActivityResult(NewPostActivity.Contract) { text ->
             text ?: return@registerForActivityResult
-//            viewModel.changeContent(text.toString())
-//            viewModel.save()
             viewModel.changeContentAndSave(text.toString())
         }
 
@@ -69,43 +70,8 @@ class MainActivity : AppCompatActivity() {
             if (post.id == 0L) {
                 return@observe
             }
-//            binding.prevContent.text = post.content
-//            binding.editMode.visibility = View.VISIBLE
-//            with(binding.content) {
-//                requestFocus()
-//                setText(post.content)
-//            }
             activityLauncher.launch(post.content)
         }
-//        binding.save.setOnClickListener {
-//            with(binding.content) {
-//                if (text.isNullOrBlank()) {
-//                    Toast.makeText(
-//                        context,
-//                        R.string.empty_content_toast,
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//                viewModel.changeContent(text.toString())
-//                viewModel.save()
-//                binding.prevContent.text = ""
-//                binding.editMode.visibility = View.GONE
-//                setText("")
-//                clearFocus()
-//                AndroidUtils.hideKeyboard(this)
-//            }
-//        }
-//        binding.cancel.setOnClickListener {
-//            viewModel.cancelEditing()
-//            binding.prevContent.text = ""
-//            binding.editMode.visibility = View.GONE
-//            with(binding.content) {
-//                setText("")
-//                clearFocus()
-//                AndroidUtils.hideKeyboard(this)
-//            }
-//        }
 
         binding.add.setOnClickListener {
             activityLauncher.launch(null)

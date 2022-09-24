@@ -11,5 +11,8 @@
     <string name="save_post_button">Save post button</string>
     <string name="empty_content_toast">Content can\'t be empty</string>
     <string name="options_edit">Edit</string>
-    <string name="cancel_editing_button">Cancel editing button</string>
+    <string name="play_video_button">Play video button</string>
+    <string name="video_image">Video image</string>
+    <string name="add_post_button">Add post button</string>
+    <string name="choose_play_video_app">Choose play video app</string>
 </resources>

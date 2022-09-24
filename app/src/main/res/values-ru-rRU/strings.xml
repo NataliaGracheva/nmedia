@@ -12,5 +12,8 @@
     <string name="save_post_button">Кнопка сохранения поста</string>
     <string name="empty_content_toast">Контент не может быть пусстым</string>
     <string name="options_edit">Редактировать</string>
-    <string name="cancel_editing_button">Кнопка отмены редактирования</string>
+    <string name="play_video_button">Кнопка воспроизведения видео</string>
+    <string name="video_image">Изображение для видео</string>
+    <string name="add_post_button">Кнопка добавления поста</string>
+    <string name="choose_play_video_app">Выбор приложения для просмотра видео</string>
 </resources>

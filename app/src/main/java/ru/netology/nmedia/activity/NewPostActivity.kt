@@ -2,10 +2,9 @@ package ru.netology.nmedia.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
-import ru.netology.nmedia.R
+import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.databinding.ActivityNewPostBinding
 
 class NewPostActivity : AppCompatActivity() {
@@ -38,6 +37,5 @@ class NewPostActivity : AppCompatActivity() {
             } else {
                 null
             }
-
     }
 }
