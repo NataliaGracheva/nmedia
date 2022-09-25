@@ -1,11 +1,13 @@
-package ru.netology.nmedia.activity
+package ru.netology.nmedia.adapter
 
+import android.view.View
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import ru.netology.nmedia.utils.Helper
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.OnInteractionsListener
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.utils.Helper
 
 
 class PostViewHolder(
@@ -17,6 +19,15 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
+            if (post.video != null) {
+                video.visibility = View.VISIBLE
+                image.setOnClickListener {
+                    listener.onPlay(post)
+                }
+                play.setOnClickListener {
+                    listener.onPlay(post)
+                }
+            }
             likedIcon.isChecked = post.likedByMe
             likedIcon.text = Helper.getShortCountView(post.liked)
             sharedIcon.text = Helper.getShortCountView(post.shared)
@@ -47,6 +58,5 @@ class PostViewHolder(
             }
         }
     }
-
 
 }

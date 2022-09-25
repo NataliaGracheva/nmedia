@@ -14,7 +14,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "23 мая в 16:47",
             liked = 0,
             shared = 0,
-            viewed = 0
+            viewed = 0,
+            video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
         ),
         Post(
             id = 2,
