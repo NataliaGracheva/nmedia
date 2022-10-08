@@ -10,21 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.FragmentFeedBinding
+import ru.netology.nmedia.adapter.PostViewHolder
+import ru.netology.nmedia.databinding.FragmentPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.utils.StringArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
+class PostFragment : Fragment() {
 
-class FeedFragment : Fragment() {
-
-    private lateinit var binding: FragmentFeedBinding
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
     companion object {
-        var Bundle.textArg: String? by StringArg
+        var Bundle.textArg by StringArg
     }
 
     override fun onCreateView(
@@ -32,14 +31,8 @@ class FeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFeedBinding.inflate(inflater, container, false)
-        initViews()
-        return binding.root
-    }
-
-    private fun initViews() {
-        val adapter = PostAdapter(object :
-            OnInteractionsListener {
+        val binding = FragmentPostBinding.inflate(inflater, container, false)
+        val postViewHolder = PostViewHolder(binding.post, object : OnInteractionsListener {
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
             }
@@ -61,7 +54,7 @@ class FeedFragment : Fragment() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
-                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                findNavController().navigate(R.id.action_postFragment_to_newPostFragment,
                     Bundle().apply {
                         textArg = post.content
                     })
@@ -73,21 +66,16 @@ class FeedFragment : Fragment() {
                     Intent.createChooser(intent, getString(R.string.choose_play_video_app))
                 startActivity(playIntent)
             }
-        },
-            PostAdapter.OnPostClickListener { post: Post ->
-                findNavController().navigate(R.id.action_feedFragment_to_postFragment,
-                    Bundle().apply {
-                        textArg = post.id.toString()
-                    })
-            }
-        )
-        binding.list.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts)
-        }
 
-        binding.add.setOnClickListener {
-            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+        })
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
+            val id = arguments?.textArg?.toLong()
+            val post = posts.find { it.id == id } ?: kotlin.run {
+                findNavController().navigateUp()
+                return@observe
+            }
+            postViewHolder.bind(post)
         }
+        return binding.root
     }
 }
