@@ -3,24 +3,38 @@ package ru.netology.nmedia.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.utils.StringArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 
-class MainActivity : AppCompatActivity() {
+class FeedFragment : Fragment() {
 
-    private lateinit var binding: ActivityMainBinding
-    private val viewModel: PostViewModel by viewModels()
+    private lateinit var binding: FragmentFeedBinding
+    private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    companion object {
+        var Bundle.textArg: String? by StringArg
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentFeedBinding.inflate(inflater, container, false)
         initViews()
+        return binding.root
     }
 
     private fun initViews() {
@@ -47,6 +61,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                    Bundle().apply {
+                        textArg = post.content
+                    })
             }
 
             override fun onPlay(post: Post) {
@@ -55,26 +73,21 @@ class MainActivity : AppCompatActivity() {
                     Intent.createChooser(intent, getString(R.string.choose_play_video_app))
                 startActivity(playIntent)
             }
-        })
+        },
+            PostAdapter.OnPostClickListener { post: Post ->
+                findNavController().navigate(R.id.action_feedFragment_to_postFragment,
+                    Bundle().apply {
+                        textArg = post.id.toString()
+                    })
+            }
+        )
         binding.list.adapter = adapter
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
 
-        val activityLauncher = registerForActivityResult(NewPostActivity.Contract) { text ->
-            text ?: return@registerForActivityResult
-            viewModel.changeContentAndSave(text.toString())
-        }
-
-        viewModel.edited.observe(this) { post ->
-            if (post.id == 0L) {
-                return@observe
-            }
-            activityLauncher.launch(post.content)
-        }
-
         binding.add.setOnClickListener {
-            activityLauncher.launch(null)
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
     }
 }

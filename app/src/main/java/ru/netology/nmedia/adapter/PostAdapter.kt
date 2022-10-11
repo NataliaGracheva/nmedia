@@ -17,7 +17,8 @@ interface OnInteractionsListener {
 }
 
 class PostAdapter(
-    private val listener: OnInteractionsListener
+    private val listener: OnInteractionsListener,
+    private val onPostClickListener: OnPostClickListener
 ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder =
@@ -27,7 +28,15 @@ class PostAdapter(
         )
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val post = getItem(position)
+        holder.itemView.setOnClickListener {
+            onPostClickListener.onPostClick(post)
+        }
+        holder.bind(post)
+    }
+
+    class OnPostClickListener(val clickListener: (post: Post) -> Unit) {
+        fun onPostClick(post: Post) = clickListener(post)
     }
 }
 
