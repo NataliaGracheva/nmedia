@@ -48,4 +48,20 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
         edited.value = empty
     }
+
+    fun save(content: String) {
+        val text = content.trim()
+        repository.save(
+            Post(
+                id = 0,
+                author = "Me",
+                content = text,
+                published = "now",
+                liked = 0,
+                shared = 0,
+                viewed = 0
+            )
+        )
+
+    }
 }

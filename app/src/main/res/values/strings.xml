@@ -15,4 +15,9 @@
     <string name="video_image">Video image</string>
     <string name="add_post_button">Add post button</string>
     <string name="choose_play_video_app">Choose play video app</string>
+    <string name="google_play_unavailable">NMedia won\'t run without Google Play services, which are not supported by your device</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="notification_user_new_post">User %1$s has published a new post</string>
 </resources>
