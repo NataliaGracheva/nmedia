@@ -2,8 +2,6 @@ package ru.netology.nmedia.adapter
 
 import android.view.View
 import android.widget.PopupMenu
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.OnInteractionsListener
